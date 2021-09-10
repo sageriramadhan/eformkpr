@@ -13,7 +13,7 @@ const User = require('./models/user')
 //Routers
 const userRouter = require('./routes/user')
 const authRouter = require("./routes/auth");
-//const formRouter = require('./routes/form')
+const formRouter = require('./routes/form')
 const cartformRouter = require('./routes/cartform')
 
 //Middlewares
@@ -27,7 +27,7 @@ app.use("/uploads", express.static("./uploads"));
 
 app.use('/api/user', userRouter)
 app.use("/api/auth", authRouter);
-//app.use('/api/product', formRouter)
+app.use('/api/form', formRouter)
 app.use("/api/cartform", cartformRouter);
 
 
