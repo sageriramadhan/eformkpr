@@ -1,15 +1,16 @@
 import React, { Component, useState } from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import AppBar from '@material-ui/core/AppBar';
-import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
 import MenuItem from '@material-ui/core/MenuItem';
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
-import '../Styles/DataSuamiIstri.css'
+import '../Styles/Form.css'
 import Footer from './Footer'
+import InputMask from "react-input-mask";
 
 // const dates = [
 //     {value: '1'},{value: '2'},{value: '3'},{value: '4'},{ value: '5'},
@@ -40,23 +41,13 @@ function DataSuamiIstri (props) {
         prevStep();
     };
     
-    // const [state, setState] = useState({
-    //     namaSuamiIstri: '',
-    //     tempatLahirSuamiIstri: '',
-    //     tanggalLahirSuamiIstri: '',
-    //     nomorKTPSuamiIstri: '',
-    //     nomorNPWPSuamiIstri: '',
-    //     pekerjaanSuamiIstri: '',
-    //     nomorTelponSuamiIstri: ''
-    // })
-    // const [tlp,setTlp] = useState({nomorTelponSuamiIstri: ''})
-    // const {namaSuamiIstri, tempatLahirSuamiIstri, tanggalLahirSuamiIstri, nomorKTPSuamiIstri, nomorNPWPSuamiIstri, pekerjaanSuamiIstri,nomorTelponSuamiIstri} = state
-    // const state = {namaSuamiIstri, tempatLahirSuamiIstri, tanggalLahirSuamiIstri, nomorKTPSuamiIstri, nomorNPWPSuamiIstri, pekerjaanSuamiIstri,nomorTelponSuamiIstri}
-    // const handleChange = e => {
-    //     const name = e.target.name
-    //     setState({ [name]: e.target.value });
-    // };
-    
+    const useStyles = makeStyles((theme) => ({
+        text: {
+            width: '50vw'
+        }
+    }));
+    const classes = useStyles();
+
     return (
         <div id='mainPage'>
             <div id='mainForm'>
@@ -89,6 +80,7 @@ function DataSuamiIstri (props) {
                         {/* {console.log ('tempat lahir :',state.tempatLahirSuamiIstri)} */}
                         <TextField
                             id="date"
+                            className={classes.text}
                             helperText="Masukan Tanggal Lahir Suami/Istri"
                             name='tanggalLahirSuamiIstri'
                             onChange={handleChange}
@@ -143,15 +135,30 @@ function DataSuamiIstri (props) {
                     </div>
 
                     <div className='subformContainer'>
-                        <div id='phoneTitleContainer'>
-                            <text className="subformTitle">No. Handphone</text>
+                        <text className="subformTitle">Nomor Handphone</text>
+                        <div>
+                            <InputMask
+                                mask="+62 | 999-999-999-999"
+                                value={values.nomorTelponSuamiIstri}
+                                onChange={handleChange}
+                                maskChar=" "
+                            >
+                                {() => <TextField 
+                                placeholder="+62 | xxx-xxx-xxx"
+                                name='nomorTelponSuamiIstri'
+                                fullWidth
+                                margin='dense'/>}
+                            </InputMask>
                         </div>
+
+                        {/* 
                         <PhoneInput
                             international
                             defaultCountry="ID"
                             name='nomorTelponSuamiIstri'
+                            // onChange={setTlp}
                             onChange={handleChange}
-                            // onChange={(e) => setState(e.target.value)}
+                            // value={tlp}
                             value={values.nomorTelponSuamiIstri}
                             margin='dense'
                         />

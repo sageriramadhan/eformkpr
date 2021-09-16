@@ -20,7 +20,7 @@
 .judul {
   text-align: center;
   left: 411.5px;
-  padding-top: 2rem;
+  padding-top: 65px;
   margin: 0;
 
   font-family: Open Sans;
@@ -97,4 +97,8 @@
   display: flex;
   margin-top: 6px;
   padding:6px 0 6px;
+}
+
+.text {
+  width: 1000px;
 }

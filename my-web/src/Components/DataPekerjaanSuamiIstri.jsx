@@ -3,13 +3,16 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
 import MenuItem from '@material-ui/core/MenuItem';
-import PhoneInput from "react-phone-number-input";
+// import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
-import CurrencyInput from './CurrencyInput';
+// import CurrencyInput from './CurrencyInput';
+import CurrencyTextField from '@unicef/material-ui-currency-textfield'
 import { makeStyles } from "@material-ui/core/styles";
+import clsx from 'clsx';
 import { Select, FormControl, InputLabel } from "@material-ui/core";
-import '../Styles/DataSuamiIstri.css'
+import '../Styles/Form.css'
 import Footer from './Footer'
+import InputMask from "react-input-mask";
 
 
 function DataPekerjaanSuamiIstri (props) {
@@ -49,13 +52,18 @@ function DataPekerjaanSuamiIstri (props) {
     // const handleChange = input => e => {
     //     setState({ [input]: e.target.value });
     // };
+
     const useStyles = makeStyles((theme) => ({
         formControl: {
-          margin: theme.spacing(0),
+          margin: 0,
           width: 450
         },
+        root: {
+            display: 'flex',
+            flexWrap: 'wrap',
+        },
         text: {
-            width: '94%'
+            width: '50vw'
         }
     }));
     const classes = useStyles();
@@ -120,7 +128,7 @@ function DataPekerjaanSuamiIstri (props) {
 
                     <div className='subformContainer'>
                         <text className="subformTitle">Status Pekerjaan</text>
-                        <FormControl className={classes.formControl}>
+                        <FormControl className={clsx(classes.formControl,classes.root)}>
                             <TextField
                                 label={values.statusPekerjaanSuamiIstri === "" ? "Masukan Status Pekerjaan" : ""}
                                 className={classes.text}
@@ -129,6 +137,7 @@ function DataPekerjaanSuamiIstri (props) {
                                 onChange={handleChange}
                                 defaultValue={values.statusPekerjaanSuamiIstri}
                                 select
+                                fullWidth
                                 margin='dense'>
                                 <MenuItem value="Karyawan Tetap">Karyawan Tetap</MenuItem>
                                 <MenuItem value="Karyawan Kontrak">Karyawan Kontrak</MenuItem>
@@ -205,29 +214,39 @@ function DataPekerjaanSuamiIstri (props) {
 
                     <div className='subformContainer'>
                         <text className="subformTitle">Pendapatan per Bulan</text>
-                        <CurrencyInput
+                        <CurrencyTextField
+                            className={classes.root}
+                            defaultValue={values.pendapatanBulananSuamiIstri}
+                            currencySymbol="Rp | "
+                            decimalCharacter=","
+                            digitGroupSeparator="."
+                            onChange={handleChange}
+                            inputProps={{style: { textAlign: 'left',display: "flex",flexWrap: 'wrap'}}}
+                        />
+                        {/* <CurrencyInput
                             id='currencyContainer'
                             name='pendapatanBulananSuamiIstri'
-                            placeholder="Rp|0"
+                            placeholder="Rp | 0"
                             onChange={handleChange}
                             defaultValue={values.pendapatanBulananSuamiIstri}
                             fullWidth
                             margin='dense'
-                        />
+                        /> */}
                     </div>
 
                     <div className='subformContainer'>
                         <text className="subformTitle">Pembayaran Gaji</text>
-                        <FormControl className={classes.formControl}>
+                        <FormControl className={clsx(classes.formControl,classes.root)}>
                             <TextField
                                 label={values.pembayaranGajiSuamiIstri === "" ? "Masukan Cara Pembayaran Gaji" : ""}
                                 className={classes.text}
-                                name='pembayaranGajiuamiIstri'
+                                name='pembayaranGajiSuamiIstri'
                                 InputLabelProps={{ shrink: false }}
                                 onChange={handleChange}
                                 defaultValue={values.pembayaranGajiSuamiIstri}
                                 select
-                                margin='dense'>
+                                fullWidth
+                                >
                                 <MenuItem value="Transfer Bank Muamalat">Transfer Bank Muamalat</MenuItem>
                                 <MenuItem value="Transfer Bank Lain">Transfer Bank Lain</MenuItem>
                             </TextField>
@@ -259,10 +278,23 @@ function DataPekerjaanSuamiIstri (props) {
                     </div>
 
                     <div className='subformContainer'>
-                        <div id='phoneTitleContainer'>
-                            <text className="subformTitle">No. Telepon Atasan</text>
+                        <text className="subformTitle">No. Telepon Atasan</text>
+                        <div>
+                            <InputMask
+                                mask="+62 | 999-999-999-999"
+                                value={values.teleponAtasanSuamiIstri}
+                                onChange={handleChange}
+                                maskChar=" "
+                            >
+                                {() => <TextField 
+                                placeholder="+62 | xxx-xxx-xxx"
+                                name='teleponAtasanSuamiIstri'
+                                fullWidth
+                                margin='dense'/>}
+                            </InputMask>
                         </div>
-                        <PhoneInput
+                    </div>
+                        {/* <PhoneInput
                             international
                             defaultCountry="ID"
                             name='teleponAtasanSuamiIstri'
@@ -270,8 +302,8 @@ function DataPekerjaanSuamiIstri (props) {
                             defaultValue={values.teleponAtasanSuamiIstri}
                             fullWidth
                             margin='dense'
-                        />
-                    </div>
+                        /> */}
+                    
                 </div>
                 <footer id='formButton'>
                     <Button

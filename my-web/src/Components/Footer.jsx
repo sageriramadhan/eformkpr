@@ -8,7 +8,7 @@ import axios from 'axios';
 import MenuItem from '@material-ui/core/MenuItem';
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
-import '../Styles/DataSuamiIstri.css'
+import '../Styles/Form.css'
 
 function Footer(props) {
     const {nextStep,prevStep} = props

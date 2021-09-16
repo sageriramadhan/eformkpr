@@ -16,6 +16,7 @@ export class Main extends Component {
             nomorKTPSuamiIstri: '',
             nomorNPWPSuamiIstri: '',
             pekerjaanSuamiIstri: '',
+            nomorTelponSuamiIstri:'' ,
             // Page 6
             lamaBekerjaSuamiIstri: '',
             jenisPekerjaanSuamiIstri: '',
@@ -34,7 +35,7 @@ export class Main extends Component {
             emailAtasanSuamiIstri: '',
             teleponAtasanSuamiIstri: ''
         }
-        // this.tlp = {teleponAtasanSuamiIstri: ''}
+        // this.tlp = {nomorTelponSuamiIstri:'' ,teleponAtasanSuamiIstri: ''}
   }  
 //   state = {
 //     step: 1,
@@ -85,26 +86,27 @@ export class Main extends Component {
     this.setState({ [name]: e.target.value });
   };
 
-  // handleChangeTlp = e => {
+  // handleTlp = e => {
   //   this.setTlp({teleponAtasanSuamiIstri: e.target.value})
   // }
 
   render() {
     const { step } = this.state;
     const {namaSuamiIstri, tempatLahirSuamiIstri, tanggalLahirSuamiIstri, nomorKTPSuamiIstri,
-         nomorNPWPSuamiIstri, pekerjaanSuamiIstri,lamaBekerjaSuamiIstri, jenisPekerjaanSuamiIstri, 
+         nomorNPWPSuamiIstri, pekerjaanSuamiIstri, nomorTelponSuamiIstri,lamaBekerjaSuamiIstri, jenisPekerjaanSuamiIstri, 
          statusPekerjaanSuamiIstri,namaPerusahaanSuamiIstri, tempatUsahaSuamiIstri, 
          kategoriInstansiSuamiIstri,bidangUsahaSuamiIstri,jumlahKaryawanSuamiIstri,teleponKantorSuamiIstri,
          teleponHrdSuamiIstri,jabatanSuamiIstri,pendapatanBulananSuamiIstri,pembayaranGajiSuamiIstri,
-         emailHrdSuamiIstri,emailAtasanSuamiIstri} = this.state;
+         emailHrdSuamiIstri,emailAtasanSuamiIstri, teleponAtasanSuamiIstri} = this.state;
+    // const {nomorTelponSuamiIstri,teleponAtasanSuamiIstri} = this.tlp
 
     const values = {
         namaSuamiIstri, tempatLahirSuamiIstri, tanggalLahirSuamiIstri, nomorKTPSuamiIstri,
-        nomorNPWPSuamiIstri, pekerjaanSuamiIstri,lamaBekerjaSuamiIstri, jenisPekerjaanSuamiIstri, 
+        nomorNPWPSuamiIstri, pekerjaanSuamiIstri,nomorTelponSuamiIstri,lamaBekerjaSuamiIstri, jenisPekerjaanSuamiIstri, 
         statusPekerjaanSuamiIstri,namaPerusahaanSuamiIstri, tempatUsahaSuamiIstri, 
         kategoriInstansiSuamiIstri,bidangUsahaSuamiIstri,jumlahKaryawanSuamiIstri,teleponKantorSuamiIstri,
         teleponHrdSuamiIstri,jabatanSuamiIstri,pendapatanBulananSuamiIstri,pembayaranGajiSuamiIstri,
-        emailHrdSuamiIstri,emailAtasanSuamiIstri
+        emailHrdSuamiIstri,emailAtasanSuamiIstri,teleponAtasanSuamiIstri
     };
 
     switch (step) {
