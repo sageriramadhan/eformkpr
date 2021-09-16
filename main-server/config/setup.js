@@ -1,7 +1,7 @@
 module.exports = {
     HOST: "localhost",
     USER: "postgres",
-    PASSWORD: "admin",
+    PASSWORD: "20210261",
     DB: "eform",
     dialect: "postgres",
     port:5432,
