@@ -1,10 +1,12 @@
 const jwt = require("jsonwebtoken");
 const { jwtKey } = require("../middlewares/key");
+require('dotenv').config()
 
 const generateToken = (data) => {
     const access_token = jwt.sign(
       { email: data.email, id: data.id, isAdmin: data.isAdmin },
-      jwtKey
+      process.env.jwtKey
+
     );
     return access_token;
   };
