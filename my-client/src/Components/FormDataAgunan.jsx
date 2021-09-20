@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 import { Dialog, AppBar, TextField, MenuItem, Button, FormControl, FormLabel, Grid, Select } from '@material-ui/core';
 import '../Styles/formStyle.css'
 import { withStyles, createStyles } from "@material-ui/core/styles";
-import axios from 'axios';
 import stepper from "../stepper.PNG"
+import { LocationService } from '../Service/LocationService';
 
 const styles = theme => createStyles({
   root: {
@@ -29,20 +28,129 @@ const styles = theme => createStyles({
 });
 
 export class FormDataAgunan extends Component {
+
+  state = {
+    daftarProvinsi: [],
+    daftarKotaKabupaten: [],
+    daftarKecamatan: [],
+    daftarKelurahan: [],
+    provinsiTerpilih: null,
+    kotaKabupatenTerpilih: null,
+    kecamatanTerpilih: null,
+    kelurahanTerpilih: null,
+  }
  
   continue = e => {
     e.preventDefault();
     this.props.nextStep();
   };
 
+  async componentDidMount() {
+
+    let namaProvinsi = this.props.values.provinsiAgunan
+    let namaKotaKabupaten = this.props.values.kotaKabupatenAgunan
+    let namaKecamatan = this.props.values.kecamatanAgunan
+    let namaKelurahan = this.props.values.kelurahanAgunan
+
+    let daftarProvinsi = await LocationService.getDaftarProvinsi()
+    this.setState({ daftarProvinsi: daftarProvinsi })
+
+    if (namaProvinsi !== "") {
+      let provinsi = this.state.daftarProvinsi.find(element => {
+        return element.nama === namaProvinsi
+      })
+      // console.log(`onProvinsiDidSelect ${provinsi}`)
+      await this.onProvinsiDidSelect(provinsi)
+    }
+
+    if (namaKotaKabupaten !== "") {
+      let kotaKabupaten = this.state.daftarKotaKabupaten.find(element => {
+        return element.nama === namaKotaKabupaten
+      })
+      // console.log(`onKotaKabupatenDidSelect ${kotaKabupaten}`)
+      await this.onKotaKabupatenDidSelect(kotaKabupaten)
+    }
+
+    if (namaKecamatan !== "") {
+      let kecamatan = this.state.daftarKecamatan.find(element => {
+        return element.nama === namaKecamatan
+      })
+      // console.log(`onKecamatanDidSelect ${kecamatan}`)
+      await this.onKecamatanDidSelect(kecamatan)
+    }
+
+    if (namaKelurahan !== "") {
+      let kelurahan = this.state.daftarKelurahan.find(element => {
+        return element.nama === namaKelurahan
+      })
+      // console.log(`onKelurahanDidSelect ${kelurahan}`)
+      await this.onKelurahanDidSelect(kelurahan)
+    }
+  }
+
+  async onProvinsiDidSelect(provinsi) {
+    this.props.handleProvinsi(provinsi, 'provinsiAgunan')
+
+    this.setState({ provinsiTerpilih: provinsi })
+
+    let daftarKotaKabupaten = await LocationService.getDaftarKotaKabupaten(provinsi.id)
+    this.setState({ daftarKotaKabupaten: daftarKotaKabupaten })
+  }
+
+  async onKotaKabupatenDidSelect(kotaKabupaten) {
+    this.props.handleKotaKabupaten(kotaKabupaten, 'provinsiAgunan')
+
+    this.setState({ kotaKabupatenTerpilih: kotaKabupaten })
+
+    let daftarKecamatan = await LocationService.getDaftarKecamatan(kotaKabupaten.id)
+    this.setState({ daftarKecamatan: daftarKecamatan })
+  }
+
+  async onKecamatanDidSelect(kecamatan) {
+    this.props.handleKecamatan(kecamatan, 'kecamatanAgunan')
+
+    this.setState({ kecamatanTerpilih: kecamatan })
+
+    let daftarKelurahan = await LocationService.getDaftarKelurahan(kecamatan.id)
+    this.setState({ daftarKelurahan: daftarKelurahan })
+  }
+
+  async onKelurahanDidSelect(kelurahan) {
+    this.props.handleKelurahan(kelurahan, 'kelurahanAgunan')
+
+    this.setState({ kelurahanTerpilih: kelurahan })
+  }
+
+  // View Event Handler
+  onProvinsiMenuItemClick = provinsi => e => {
+    this.onProvinsiDidSelect(provinsi)
+  }
+
+  onKotaKabupatenMenuItemClick = kotaKabupaten => e => {
+    this.onKotaKabupatenDidSelect(kotaKabupaten)
+  }
+
+  onKecamatanMenuItemClick = kecamatan => e => {
+    this.onKecamatanDidSelect(kecamatan)
+  }
+
+  onKelurahanMenuItemClick = kelurahan => e => {
+    this.onKelurahanDidSelect(kelurahan)
+  }
+
   render() {
-    const { values, handleChange, classes,
-            daftarProvinsi, daftarKabupatenKota, 
-            daftarKecamatan, daftarKelurahan,
-            handleProvinsi, handleKabupatenKota,
-            handleKecamatan, handleKelurahan,
-            provinsiTerpilih, kabupatenKotaTerpilih,
-            kecamatanTerpilih, kelurahanTerpilih } = this.props;
+    const { values, handleChange, classes } = this.props;
+
+    const {
+      daftarProvinsi,
+      daftarKotaKabupaten,
+      daftarKecamatan,
+      daftarKelurahan,
+      provinsiTerpilih,
+      kotaKabupatenTerpilih,
+      kecamatanTerpilih,
+      kelurahanTerpilih,
+    } = this.state
 
     return (
       <div className="mainPage">
@@ -198,7 +306,7 @@ export class FormDataAgunan extends Component {
               InputLabelProps={{ shrink: false }}
               onChange={handleChange('provinsiAgunan')}
               className={classes.text}
-              defaultValue={values.provinsiAgunan}
+              defaultValue={values.provinsiAgunan === '' ? '' : values.provinsiAgunan}
               margin="normal"
               fullWidth
               select >
@@ -206,39 +314,39 @@ export class FormDataAgunan extends Component {
                 daftarProvinsi.map((provinsi) =>
                   <MenuItem
                     key={provinsi.id}
-                    value={provinsi.id}
-                    onClick={handleProvinsi(provinsi)}>
+                    value={provinsi.nama}
+                    onClick={this.onProvinsiMenuItemClick(provinsi)}>
                     {provinsi.nama}
                   </MenuItem>)
               }
             </TextField>
             <TextField
               disabled={provinsiTerpilih==null}
-              label={values.kabupatenKotaAgunan === "" ? "Pilih Kabupaten / Kota" : ""}
+              label={values.kotaKabupatenAgunan === "" ? "Pilih Kabupaten / Kota" : ""}
               InputLabelProps={{ shrink: false }}
-              onChange={handleChange('kabupatenKotaAgunan')}
+              onChange={handleChange('kotaKabupatenAgunan')}
               className={classes.text}
-              defaultValue={values.kabupatenKotaAgunan}
+              defaultValue={values.kotaKabupatenAgunan === "" ? '' : values.kotaKabupatenAgunan}
               margin="normal"
               fullWidth
               select>
               {
-                daftarKabupatenKota.map((kota_kabupaten) =>
+                daftarKotaKabupaten.map((kota_kabupaten) =>
                   <MenuItem
                     key={kota_kabupaten.id}
-                    value={kota_kabupaten.id}
-                    onClick={handleKabupatenKota(kota_kabupaten)}>
+                    value={kota_kabupaten.nama}
+                    onClick={this.onKotaKabupatenMenuItemClick(kota_kabupaten)}>
                     {kota_kabupaten.nama}
                   </MenuItem>)
               }
             </TextField>
             <TextField
-              disabled={kabupatenKotaTerpilih==null}
+              disabled={kotaKabupatenTerpilih==null}
               label={values.kecamatanAgunan === "" ? "Pilih Kecamatan" : ""}
               InputLabelProps={{ shrink: false }}
               onChange={handleChange('kecamatanAgunan')}
               className={classes.text}
-              defaultValue={values.kecamatanAgunan}
+              defaultValue={values.kecamatanAgunan === "" ? '' : values.kecamatanAgunan}
               margin="normal"
               fullWidth
               select>
@@ -246,8 +354,8 @@ export class FormDataAgunan extends Component {
                 daftarKecamatan.map((kecamatan) =>
                   <MenuItem
                     key={kecamatan.id}
-                    value={kecamatan.id}
-                    onClick={handleKecamatan(kecamatan)}>
+                    value={kecamatan.nama}
+                    onClick={this.onKecamatanMenuItemClick(kecamatan)}>
                     {kecamatan.nama}
                   </MenuItem>)
               }
@@ -258,7 +366,7 @@ export class FormDataAgunan extends Component {
               InputLabelProps={{ shrink: false }}
               onChange={handleChange('kelurahanAgunan')}
               className={classes.text}
-              defaultValue={values.kelurahanAgunan}
+              defaultValue={values.kelurahanAgunan === "" ? '' : values.kelurahanAgunan}
               margin="normal"
               fullWidth
               select>
@@ -266,9 +374,8 @@ export class FormDataAgunan extends Component {
                 daftarKelurahan.map((kelurahan) =>
                   <MenuItem
                     key={kelurahan.id}
-                    value={kelurahan.id}
-                    onClick={handleKelurahan(kelurahan)}
-                  >
+                    value={kelurahan.nama}
+                    onClick={this.onKelurahanMenuItemClick(kelurahan)}>
                     {kelurahan.nama}
                   </MenuItem>)
               }

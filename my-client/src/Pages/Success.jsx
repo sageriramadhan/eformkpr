@@ -11,7 +11,6 @@ import ok from "../ok.PNG"
 
 //import qs from 'qs'
 
-
 export class Success extends Component {
   continue = e => {
     e.preventDefault();

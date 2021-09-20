@@ -7,6 +7,7 @@ import { purple } from '@material-ui/core/colors';
 import '../Styles/formStyle.css'
 import { withStyles, createStyles } from "@material-ui/core/styles";
 import stepper from "../stepper2.PNG"
+import { LocationService } from '../Service/LocationService';
 
 const styles = theme => createStyles({
   root: {
@@ -46,26 +47,110 @@ const PurpleSwitch = withStyles({
 
 export class FormDataPemohon extends Component {
   state = {
-    checkedA: false, isLainnya: false, 
-    // daftarKabupatenKota: [],
-    // daftarKecamatan: [], daftarKelurahan: [],
-    // provinsiTerpilih: null, kabupatenKotaTerpilih: null,
-    // kecamatanTerpilih: null, kelurahanTerpilih: null,
+    checkedA: false,
+    lokasiKTP: {
+      daftarProvinsi: [],
+      daftarKotaKabupaten: [],
+      daftarKecamatan: [],
+      daftarKelurahan: [],
+      provinsiTerpilih: null,
+      kotaKabupatenTerpilih: null,
+      kecamatanTerpilih: null,
+      kelurahanTerpilih: null,
+    },
+    lokasiSaatIni: {
+      daftarProvinsi: [],
+      daftarKotaKabupaten: [],
+      daftarKecamatan: [],
+      daftarKelurahan: [],
+      provinsiTerpilih: null,
+      kotaKabupatenTerpilih: null,
+      kecamatanTerpilih: null,
+      kelurahanTerpilih: null,
+    }
+  }
+
+  async componentDidMount() {
+
+    let daftarProvinsi = await LocationService.getDaftarProvinsi()
+    this.state.lokasiKTP.daftarProvinsi = daftarProvinsi
+    this.state.lokasiSaatIni.daftarProvinsi = daftarProvinsi
+    this.setState({
+      lokasiKTP: this.state.lokasiKTP,
+      lokasiSaatIni: this.state.lokasiSaatIni
+    })
+
+    let namaProvinsiKTP = this.props.values.provinsiKTP
+    let namaKotaKabupatenKTP = this.props.values.kotaKabupatenKTP
+    let namaKecamatanKTP = this.props.values.kecamatanKTP
+    let namaKelurahanKTP = this.props.values.kelurahanKTP
+
+    let namaProvinsiSaatIni = this.props.values.provinsiSaatIni
+    let namaKotaKabupatenSaatIni = this.props.values.kotaKabupatenSaatIni
+    let namaKecamatanSaatIni = this.props.values.kecamatanSaatIni
+    let namaKelurahanSaatIni = this.props.values.kelurahanSaatIni
+
+    if (namaProvinsiKTP !== "") {
+      let provinsiKTP = this.state.lokasiKTP.daftarProvinsi.find(element => {
+        return element.nama === namaProvinsiKTP
+      })
+      await this.onProvinsiDidSelect(provinsiKTP, 'ktp')
+    }
+
+    if (namaProvinsiSaatIni !== "") {
+      let provinsiSaatIni = this.state.lokasiSaatIni.daftarProvinsi.find(element => {
+        return element.nama === namaProvinsiSaatIni
+      })
+      await this.onProvinsiDidSelect(provinsiSaatIni, 'saatini')
+    }
+
+    if (namaKotaKabupatenKTP !== "") {
+      let kotaKabupaten = this.state.lokasiKTP.daftarKotaKabupaten.find(element => {
+        return element.nama === namaKotaKabupatenKTP
+      })
+      await this.onKotaKabupatenDidSelect(kotaKabupaten, 'ktp')
+    }
+
+    if (namaKotaKabupatenSaatIni !== "") {
+      let kotaKabupaten = this.state.lokasiSaatIni.daftarKotaKabupaten.find(element => {
+        return element.nama === namaKotaKabupatenSaatIni
+      })
+      await this.onKotaKabupatenDidSelect(kotaKabupaten, 'saatini')
+    }
+
+    if (namaKecamatanKTP !== "") {
+      let kecamatan = this.state.lokasiKTP.daftarKecamatan.find(element => {
+        return element.nama === namaKecamatanKTP
+      })
+      await this.onKecamatanDidSelect(kecamatan, 'ktp')
+    }
+
+    if (namaKecamatanSaatIni !== "") {
+      let kecamatan = this.state.lokasiSaatIni.daftarKecamatan.find(element => {
+        return element.nama === namaKecamatanSaatIni
+      })
+      await this.onKecamatanDidSelect(kecamatan, 'saatini')
+    }
+
+    if (namaKelurahanKTP !== "") {
+      let kelurahan = this.state.lokasiKTP.daftarKelurahan.find(element => {
+        return element.nama === namaKelurahanKTP
+      })
+      // console.log(`onKelurahanDidSelect ${kelurahan}`)
+      await this.onKelurahanDidSelect(kelurahan, 'ktp')
+    }
+
+    if (namaKelurahanSaatIni !== "") {
+      let kelurahan = this.state.lokasiSaatIni.daftarKelurahan.find(element => {
+        return element.nama === namaKelurahanSaatIni
+      })
+      await this.onKelurahanDidSelect(kelurahan, 'saatini')
+    }
   }
 
   handleSwitch = (event) => {
     this.setState({ ...this.state, [event.target.name]: event.target.checked })
     this.props.handleAlamatSama();
-  }
-
-  handleLainnya = (event) => {
-    if (event.target.value === "Lainnya") {
-      this.setState({ isLainnya: true })
-      this.props.handleChange("statusTempatTinggal")
-    } else {
-      this.setState({ isLainnya: false })
-      this.props.handleChange("statusTempatTinggal")
-    }
   }
 
   continue = e => {
@@ -78,34 +163,91 @@ export class FormDataPemohon extends Component {
     this.props.prevStep();
   };
 
-  // onProvinsiMenuItemClick = provinsi => e => {
-  //   this.props.getDaftarKabupatenKota(provinsi.id)
-  //   this.setState({ provinsiTerpilih: e.target.value })
-  // }
+  async onProvinsiDidSelect(provinsi, tag) {
+    this.props.handleProvinsi(provinsi, tag)
 
-  // onKabupatenKotaMenuItemClick = kota_kabupaten => e => {
-  //   this.props.getDaftarKecamatan(kota_kabupaten.id)
-  //   this.setState({ kabupatenKotaTerpilih: e.target.value })
-  // }
+    let daftarKotaKabupaten = await LocationService.getDaftarKotaKabupaten(provinsi.id)
 
-  // onKecamatanMenuItemClick = kecamatan => e => {
-  //   this.props.getDaftarKelurahan(kecamatan.id)
-  //   this.setState({ kecamatanTerpilih: e.target.value })
-  // }
+    if (tag.toLowerCase().includes('ktp')) {
+      this.state.lokasiKTP.provinsiTerpilih = provinsi
+      this.state.lokasiKTP.daftarKotaKabupaten = daftarKotaKabupaten
+      this.setState({ lokasiKTP: this.state.lokasiKTP })
+    } else {
+      this.state.lokasiSaatIni.provinsiTerpilih = provinsi
+      this.state.lokasiSaatIni.daftarKotaKabupaten = daftarKotaKabupaten
+      this.setState({ lokasiSaatIni: this.state.lokasiSaatIni })
+    }
+  }
 
-  // onKelurahanMenuItemClick = kelurahan => e => {
-  //   this.setState({ kelurahanTerpilih: kelurahan })
-  // }
+  async onKotaKabupatenDidSelect(kotaKabupaten, tag) {
+    this.props.handleKotaKabupaten(kotaKabupaten, tag)
+
+    let daftarKecamatan = await LocationService.getDaftarKecamatan(kotaKabupaten.id)
+
+    if (tag.toLowerCase().includes('ktp')) {
+      this.state.lokasiKTP.kotaKabupatenTerpilih = kotaKabupaten
+      this.state.lokasiKTP.daftarKecamatan = daftarKecamatan
+      this.setState({ lokasiKTP: this.state.lokasiKTP })
+    } else {
+      this.state.lokasiSaatIni.kotaKabupatenTerpilih = kotaKabupaten
+      this.state.lokasiSaatIni.daftarKecamatan = daftarKecamatan
+      this.setState({ lokasiSaatIni: this.state.lokasiSaatIni })
+    }
+  }
+
+  async onKecamatanDidSelect(kecamatan, tag) {
+    this.props.handleKecamatan(kecamatan, tag)
+
+    let daftarKelurahan = await LocationService.getDaftarKelurahan(kecamatan.id)
+
+    if (tag.toLowerCase().includes('ktp')) {
+      this.state.lokasiKTP.kecamatanTerpilih = kecamatan
+      this.state.lokasiKTP.daftarKelurahan = daftarKelurahan
+      this.setState({ lokasiKTP: this.state.lokasiKTP })
+    } else {
+      this.state.lokasiSaatIni.kecamatanTerpilih = kecamatan
+      this.state.lokasiSaatIni.daftarKelurahan = daftarKelurahan
+      this.setState({ lokasiSaatIni: this.state.lokasiSaatIni })
+    }
+  }
+
+  async onKelurahanDidSelect(kelurahan, tag) {
+    this.props.handleKelurahan(kelurahan, tag)
+
+    if (tag.toLowerCase().includes('ktp')) {
+      this.state.lokasiKTP.kelurahanTerpilih = kelurahan
+      this.setState({ lokasiKTP: this.state.lokasiKTP })
+    } else {
+      this.state.lokasiSaatIni.kelurahanTerpilih = kelurahan
+      this.setState({ lokasiSaatIni: this.state.lokasiSaatIni })
+    }
+  }
+
+  // View Event Handler
+  onProvinsiMenuItemClick = (provinsi, tag) => e => {
+    this.onProvinsiDidSelect(provinsi, tag)
+  }
+
+  onKotaKabupatenMenuItemClick = (kotaKabupaten, tag) => e => {
+    this.onKotaKabupatenDidSelect(kotaKabupaten, tag)
+  }
+
+  onKecamatanMenuItemClick = (kecamatan, tag) => e => {
+    this.onKecamatanDidSelect(kecamatan, tag)
+  }
+
+  onKelurahanMenuItemClick = (kelurahan, tag) => e => {
+    this.onKelurahanDidSelect(kelurahan, tag)
+  }
 
 
   render() {
-    const { values, handleChange, handleLainnya, classes,
-      daftarProvinsi, daftarKabupatenKota,
-      daftarKecamatan, daftarKelurahan,
-      handleProvinsi, handleKabupatenKota,
-      handleKecamatan, handleKelurahan,
-      provinsiTerpilih, kabupatenKotaTerpilih,
-      kecamatanTerpilih, kelurahanTerpilih, isLainnya } = this.props;
+    const { values, handleChange, handleLainnya, classes, isLainnya } = this.props;
+
+    const {
+      lokasiKTP,
+      lokasiSaatIni
+    } = this.state
 
     return (
       <div className="mainPage">
@@ -234,7 +376,7 @@ export class FormDataPemohon extends Component {
               className={classes.text}
               InputLabelProps={{ shrink: false }}
               onChange={handleLainnya("statusTempatTinggal")}
-              value={values.statusTempatTinggal}
+              // value={values.statusTempatTinggal}
               // onChange={event => {handleChange("statusTempatTinggal"); this.handleLainnya(event)}}
               defaultValue={values.statusTempatTinggal}
               margin="normal"
@@ -267,77 +409,75 @@ export class FormDataPemohon extends Component {
               InputLabelProps={{ shrink: false }}
               className={classes.text}
               onChange={handleChange('provinsiKTP')}
-              defaultValue={values.provinsiKTP}
-              margin="normal"
+              value={values.provinsiKTP === "" ? '' : values.provinsiKTP}
               fullWidth
               select>
               {
-                daftarProvinsi.map((provinsi) =>
+                lokasiKTP.daftarProvinsi.map((provinsi) =>
                   <MenuItem
                     key={provinsi.id}
                     value={provinsi.nama}
-                    onClick={handleProvinsi(provinsi)}>
+                    onClick={this.onProvinsiMenuItemClick(provinsi, 'provinsiKTP')}>
                     {provinsi.nama}
                   </MenuItem>)
               }
             </TextField>
             <TextField
-              disabled={provinsiTerpilih == null}
+              disabled={lokasiKTP.provinsiTerpilih == null}
               label={values.kotaKabupatenKTP === "" ? "Pilih Kabupaten / Kota" : ""}
               InputLabelProps={{ shrink: false }}
               className={classes.text}
               onChange={handleChange('kotaKabupatenKTP')}
-              defaultValue={values.kotaKabupatenKTP}
+              value={values.kotaKabupatenKTP === "" ? '' : values.kotaKabupatenKTP}
               margin="normal"
               fullWidth
               select>
               {
-                daftarKabupatenKota.map((kota_kabupaten) =>
+                lokasiKTP.daftarKotaKabupaten.map((kota_kabupaten) =>
                   <MenuItem
                     key={kota_kabupaten.id}
                     value={kota_kabupaten.nama}
-                    onClick={handleKabupatenKota(kota_kabupaten)}>
+                    onClick={this.onKotaKabupatenMenuItemClick(kota_kabupaten, 'kotaKabupatenKTP')}>
                     {kota_kabupaten.nama}
                   </MenuItem>)
               }
             </TextField>
             <TextField
-              disabled={kabupatenKotaTerpilih == null}
+              disabled={lokasiKTP.kotaKabupatenTerpilih == null}
               label={values.kecamatanKTP === "" ? "Pilih Kecamatan" : ""}
               InputLabelProps={{ shrink: false }}
               className={classes.text}
               onChange={handleChange('kecamatanKTP')}
-              defaultValue={values.kecamatanKTP}
+              value={values.kecamatanKTP === "" ? '' : values.kecamatanKTP}
               margin="normal"
               fullWidth
               select>
               {
-                daftarKecamatan.map((kecamatan) =>
+                lokasiKTP.daftarKecamatan.map((kecamatan) =>
                   <MenuItem
                     key={kecamatan.id}
-                    value={kecamatan.id}
-                    onClick={handleKecamatan(kecamatan)}>
+                    value={kecamatan.nama}
+                    onClick={this.onKecamatanMenuItemClick(kecamatan, 'kecamatanKTP')}>
                     {kecamatan.nama}
                   </MenuItem>)
               }
             </TextField>
             <TextField
-              disabled={kecamatanTerpilih == null}
+              disabled={lokasiKTP.kecamatanTerpilih == null}
               label={values.kelurahanKTP === "" ? "Pilih Kelurahan" : ""}
               InputLabelProps={{ shrink: false }}
               className={classes.text}
               onChange={handleChange('kelurahanKTP')}
-              defaultValue={values.kelurahanKTP}
+              value={values.kelurahanKTP === "" ? '' : values.kelurahanKTP}
               margin="normal"
               fullWidth
               select>
               {
-                daftarKelurahan.map((kelurahan) =>
+                lokasiKTP.daftarKelurahan.map((kelurahan) =>
                   <MenuItem
                     key={kelurahan.id}
-                    value={kelurahan.id}
-                    onClick={handleKelurahan(kelurahan)}
-                  >
+                    value={kelurahan.nama}
+                    onClick={this.onKelurahanMenuItemClick(kelurahan, 'kelurahanKTP')}>
                     {kelurahan.nama}
                   </MenuItem>)
               }
@@ -370,82 +510,81 @@ export class FormDataPemohon extends Component {
               className={classes.text}
               onChange={handleChange('provinsiSaatIni')}
               value={this.state.checkedA ? values.provinsiKTP : values.provinsiSaatIni}
-              // defaultValue={values.provinsiSaatIni}
-              defaultValue={this.state.checkedA ? values.provinsiKTP : values.provinsiSaatIni}
+              // defaultValue={this.state.checkedA ? values.provinsiKTP : values.provinsiSaatIni}
               margin="normal"
               fullWidth
               select>
               {
-                daftarProvinsi.map((provinsi) =>
+                lokasiSaatIni.daftarProvinsi.map((provinsi) =>
                   <MenuItem
                     key={provinsi.id}
-                    value={provinsi.id}
-                    onClick={handleProvinsi(provinsi)}>
+                    value={provinsi.nama}
+                    onClick={this.onProvinsiMenuItemClick(provinsi, 'provinsiSaatIni')}>
                     {provinsi.nama}
                   </MenuItem>)
               }
             </TextField>
             <TextField
-              disabled={provinsiTerpilih == null || this.state.checkedA}
+              disabled={values.provinsiSaatIni == "" || this.state.checkedA}
               label={values.kotaKabupatenSaatIni === "" ? "Pilih Kabupaten / Kota" : ""}
               InputLabelProps={{ shrink: false }}
               className={classes.text}
               onChange={handleChange('kotaKabupatenSaatIni')}
               value={this.state.checkedA ? values.kotaKabupatenKTP : values.kotaKabupatenSaatIni}
-              defaultValue={this.state.checkedA ? values.kotaKabupatenKTP : values.kotaKabupatenSaatIni}
+              // defaultValue={this.state.checkedA ? values.kotaKabupatenKTP : values.kotaKabupatenSaatIni}
               margin="normal"
               fullWidth
               select>
+              
               {
-                daftarKabupatenKota.map((kota_kabupaten) =>
+                lokasiSaatIni.daftarKotaKabupaten.map((kota_kabupaten) =>
                   <MenuItem
                     key={kota_kabupaten.id}
-                    value={kota_kabupaten.id}
-                    onClick={handleKabupatenKota(kota_kabupaten)}>
+                    value={kota_kabupaten.nama}
+                    onClick={this.onKotaKabupatenMenuItemClick(kota_kabupaten, 'kotaKabupatenSaatIni')}>
                     {kota_kabupaten.nama}
                   </MenuItem>)
               }
             </TextField>
             <TextField
-              disabled={kabupatenKotaTerpilih == null || this.state.checkedA}
+              disabled={lokasiSaatIni.kotaKabupatenTerpilih == null || this.state.checkedA}
               label={values.kecamatanSaatIni === "" ? "Pilih Kecamatan" : ""}
               InputLabelProps={{ shrink: false }}
               className={classes.text}
               onChange={handleChange('kecamatanSaatIni')}
               value={this.state.checkedA ? values.kecamatanKTP : values.kecamatanSaatIni}
-              defaultValue={this.state.checkedA ? values.kecamatanKTP : values.kecamatanSaatIni}
+              // defaultValue={this.state.checkedA ? values.kecamatanKTP : values.kecamatanSaatIni}
               margin="normal"
               fullWidth
               select>
               {
-                daftarKecamatan.map((kecamatan) =>
+                lokasiSaatIni.daftarKecamatan.map((kecamatan) =>
                   <MenuItem
                     key={kecamatan.id}
-                    value={kecamatan.id}
-                    onClick={handleKecamatan(kecamatan)}>
+                    value={kecamatan.nama}
+                    onClick={this.onKecamatanMenuItemClick(kecamatan, 'kecamatanSaatIni')}>
                     {kecamatan.nama}
                   </MenuItem>)
               }
             </TextField>
             <TextField
-              disabled={kecamatanTerpilih == null || this.state.checkedA}
+              disabled={lokasiSaatIni.kecamatanTerpilih == null || this.state.checkedA}
               label={values.kelurahanSaatIni === "" ? "Pilih Kelurahan" : ""}
               InputLabelProps={{ shrink: false }}
               className={classes.text}
               onChange={handleChange('kelurahanSaatIni')}
               value={this.state.checkedA ? values.kelurahanKTP : values.kelurahanSaatIni}
-              defaultValue={this.state.checkedA ? values.kelurahanKTP : values.kelurahanSaatIni}
+              // defaultValue={this.state.checkedA ? values.kelurahanKTP : values.kelurahanSaatIni}
               // defaultValue={values.kelurahanSaatIni}
               margin="normal"
               fullWidth
               select>
               {
-                daftarKelurahan.map((kelurahan) =>
+                lokasiSaatIni.daftarKelurahan.map((kelurahan) =>
                   <MenuItem
                     key={kelurahan.id}
-                    value={kelurahan.id}
-                    onClick={handleKelurahan(kelurahan)}
-                  >
+                    value={kelurahan.nama}
+                    onClick={this.onKelurahanMenuItemClick(kelurahan, 'kelurahanSaatIni')}>
                     {kelurahan.nama}
                   </MenuItem>)
               }
@@ -456,7 +595,7 @@ export class FormDataPemohon extends Component {
               placeholder="Masukkan Detail Alamat (Nama Jalan, No. Rumah, Blok, RT/RW"
               onChange={handleChange('alamatSaatIni')}
               value={this.state.checkedA ? values.alamatKTP : values.alamatSaatIni}
-              defaultValue={this.state.checkedA ? values.alamatKTP : values.alamatSaatIni}
+              // defaultValue={this.state.checkedA ? values.alamatKTP : values.alamatSaatIni}
               // defaultValue={values.alamatSaatIni}
               margin="normal"
               fullWidth

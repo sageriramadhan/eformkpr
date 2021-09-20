@@ -6,6 +6,9 @@ body, html{
 
 .mainPage {
     background-image: url("../bg.jpg");
+    background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
     top: 0;
     margin: 0;
     padding: 0;
@@ -124,4 +127,72 @@ body, html{
     font-size: 48px;
     color:#542D86;
     text-align: center;
+}
+
+.judulLogin {
+    /* position: absolute; */
+    height: 19px;
+
+    /* display: flex; */
+    align-items: center;
+    /* padding-top: 1rem; */
+    /* margin: 0; */
+    text-align: center;
+
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 50px;
+    line-height: 7px;
+    word-wrap: break-word;
+    /* identical to box height, or 100% */
+
+    color: #6A0081;
+
+}
+
+.loginField {
+    align-items: center !important;
+    text-align: center !important;
+    /* position: static; */
+    width: 549px !important;
+    height: 7vh;
+    /* left: 5vw !important; */
+    /* top: 45px; */
+    border: 1px solid #C4C4C4;
+    
+}
+
+.loginButton {
+    width: 30vw;
+    height: 35px;
+    padding: 5px, 0px, 5px, 0px;
+    border-radius: 25px !important;
+    /* top: 80px; */
+    background-color: #6A0081 !important;
+    color: #FFFFFF !important;
+    font-family: 'Open Sans';
+    font-size: 20px !important;
+    font-weight: 600;
+    text-transform: none;
+}
+
+.signUpButton {
+    width: 15vw;
+    background-color: #6A0081 !important;
+    color: #FFFFFF !important;
+    font-family: 'Open Sans';
+    font-size: 20px !important;
+    height: 35px;
+    padding: 5px, 0px, 5px, 0px;
+    border-radius: 25px !important;
+    font-weight: 600;
+    text-transform: none;
+}
+
+.forgot {
+    /* font-size: 20px !important;
+    right: 189px; */
+    top: 10px;
+    width: 30vw;
 }
