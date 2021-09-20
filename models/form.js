@@ -13,6 +13,14 @@ const User = require("./user")
         type: Sequelize.STRING,
         allowNull : true
       },
+      isNasabah:{
+        type: Sequelize.BOOLEAN,
+        allowNull : true
+      },
+      noRekBBMI:{
+        type: Sequelize.BIGINT,
+        allowNull : true
+      },
       userId: {
         type: Sequelize.INTEGER,
         allowNull : true,
