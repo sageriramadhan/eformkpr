@@ -4,9 +4,10 @@ import UserForm from './Pages/UserForm';
 import Login from './Pages/Login';
 import Heading from './Components/Heading';
 import logo from './logo.png';
-import { BrowserRouter, Router, Route, Redirect, Switch } from 'react-router-dom';
-import { Register } from './Pages/Register';
-import UserForm2 from './Pages/UserForm2';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import Register  from './Pages/Register';
+import Profile from './Pages/Profile';
+// import UserForm2 from './Pages/UserForm2';
 
 
 const theme = createTheme();
@@ -18,8 +19,9 @@ const App = () => {
         <div className="App">
           <Heading logo={logo} />
           <Switch>
-            <Route exact path="/UserForm" component={UserForm}/>
             <Route exact path="/" component={Login}/>
+            <Route exact path="/profile" component={Profile}/>
+            <Route exact path="/UserForm" component={UserForm}/>
             <Route exact path="/register" component={Register}/>
           </Switch>
           {/* <UserForm /> */}

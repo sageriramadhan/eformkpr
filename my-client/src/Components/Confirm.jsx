@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
+import { MuiThemeProvider, createTheme } from '@material-ui/core';
 import Dialog from '@material-ui/core/Dialog';
 import AppBar from '@material-ui/core/AppBar';
-import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 import { List, ListItem, ListItemText } from '@material-ui/core/';
 import Button from '@material-ui/core/Button';
-import axios from 'axios';
+// import axios from 'axios';
 
 
 export class Confirm extends Component {

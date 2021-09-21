@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import {
   Switch, AppBar, TextField, MenuItem, Button, FormControl,
-  FormLabel, Grid, FormControlLabel, Typography, InputAdornment
+  FormLabel, Grid, Typography, InputAdornment
 } from '@material-ui/core';
-import { purple } from '@material-ui/core/colors';
 import '../Styles/formStyle.css'
 import { withStyles, createStyles } from "@material-ui/core/styles";
-import stepper from "../stepper2.PNG"
 import { LocationService } from '../Service/LocationService';
+import InputMask from "react-input-mask";
 
 const styles = theme => createStyles({
   root: {
@@ -33,12 +32,12 @@ const styles = theme => createStyles({
 
 const PurpleSwitch = withStyles({
   switchBase: {
-    color: purple[300],
+    color: "#6A0070",
     '&$checked': {
-      color: purple[500],
+      color: "#6A0070",
     },
     '&$checked + $track': {
-      backgroundColor: purple[500],
+      backgroundColor: "#6A0070",
     },
   },
   checked: {},
@@ -47,7 +46,7 @@ const PurpleSwitch = withStyles({
 
 export class FormDataPemohon extends Component {
   state = {
-    checkedA: false,
+    // checkedA: false,
     lokasiKTP: {
       daftarProvinsi: [],
       daftarKotaKabupaten: [],
@@ -136,7 +135,6 @@ export class FormDataPemohon extends Component {
       let kelurahan = this.state.lokasiKTP.daftarKelurahan.find(element => {
         return element.nama === namaKelurahanKTP
       })
-      // console.log(`onKelurahanDidSelect ${kelurahan}`)
       await this.onKelurahanDidSelect(kelurahan, 'ktp')
     }
 
@@ -148,19 +146,26 @@ export class FormDataPemohon extends Component {
     }
   }
 
-  handleSwitch = (event) => {
-    this.setState({ ...this.state, [event.target.name]: event.target.checked })
-    this.props.handleAlamatSama();
-  }
-
   continue = e => {
     e.preventDefault();
     this.props.nextStep();
+    console.log('status perkawinan: ',this.props.values.statusPerkawinan)
+  };
+
+  jump = e => {
+    e.preventDefault();
+    this.props.tripleNext();
+    console.log('status perkawinan: ',this.props.values.statusPerkawinan)
   };
 
   back = e => {
     e.preventDefault();
     this.props.prevStep();
+  };
+  
+  tripleBack = e => {
+    e.preventDefault();
+    this.props.triplePrevious();
   };
 
   async onProvinsiDidSelect(provinsi, tag) {
@@ -242,7 +247,7 @@ export class FormDataPemohon extends Component {
 
 
   render() {
-    const { values, handleChange, handleLainnya, classes, isLainnya } = this.props;
+    const { values, handleChange, handleSwitch, handleLainnya, classes, isLainnya, checkedA } = this.props;
 
     const {
       lokasiKTP,
@@ -254,9 +259,7 @@ export class FormDataPemohon extends Component {
         <div className="mainForm">
           <p className="judul">Data Pemohon</p>
           <br />
-          <div className="stepper">
-            <img src={stepper} className="stepperImage" />
-          </div>
+          
           <br />
           <AppBar title="Masukkan Data Pengguna" />
           <FormControl className={classes.formControl}>
@@ -296,26 +299,39 @@ export class FormDataPemohon extends Component {
           <br />
           <FormControl className={classes.formControl}>
             <FormLabel className={classes.label}>Nomor KTP</FormLabel>
-            <TextField
-              className={classes.text}
-              placeholder="Masukkan 16 Digit Nomor KTP"
-              onChange={handleChange('noKTP')}
-              defaultValue={values.noKTP}
-              margin="normal"
-            />
+            <InputMask
+                mask="9999999999999999"
+                value={values.noKTP}
+                onChange={handleChange("noKTP")}
+                maskChar=" "
+            >
+                {() => <TextField
+                    className={classes.text}
+                    placeholder="Masukkan 16 Digit Nomor KTP"
+                    name="nomorKTPSuamiIstri"
+                    fullWidth
+                    margin="normal"
+                />}
+            </InputMask>
           </FormControl>
           <br />
           <br />
           <FormControl className={classes.formControl}>
             <FormLabel className={classes.label}>Nomor NPWP</FormLabel>
-            <TextField
-              className={classes.text}
-              placeholder="Masukkan Nomor NPWP"
-              onChange={handleChange('noNPWP')}
-              defaultValue={values.noNPWP}
-              margin="normal"
-              fullWidth
-            />
+            <InputMask
+                mask="999999999999999"
+                value={values.noNPWP}
+                onChange={handleChange('noNPWP')}
+                maskChar=" "
+            >
+                {() => <TextField
+                    className={classes.text}
+                    placeholder="Masukkan Nomor NPWP"
+                    name="noNPWP"
+                    fullWidth
+                    margin='normal'
+                />}
+            </InputMask>
           </FormControl>
           <br />
           <br />
@@ -389,6 +405,7 @@ export class FormDataPemohon extends Component {
             </TextField>
             {
               isLainnya ?
+                
                 <TextField
                   placeholder="Masukkan Status Tempat Tinggal"
                   margin="normal"
@@ -499,17 +516,21 @@ export class FormDataPemohon extends Component {
               <Grid component="label" container alignItems="center" spacing={1}>
                 <Grid item className="switchLabel">Sama dengan KTP</Grid>
                 <Grid item>
-                  <PurpleSwitch checked={this.state.checkedA} onChange={this.handleSwitch} name="checkedA" />
+                  <PurpleSwitch 
+                    checked={checkedA} 
+                    onChange={handleSwitch} 
+                    name="checkedA" 
+                    defaultValue={checkedA}/>
                 </Grid>
               </Grid>
             </Typography>
             <TextField
-              disabled={this.state.checkedA}
+              disabled={checkedA}
               label={values.provinsiSaatIni === "" ? "Pilih Provinsi" : ""}
               InputLabelProps={{ shrink: false }}
               className={classes.text}
               onChange={handleChange('provinsiSaatIni')}
-              value={this.state.checkedA ? values.provinsiKTP : values.provinsiSaatIni}
+              value={checkedA ? values.provinsiKTP : values.provinsiSaatIni}
               // defaultValue={this.state.checkedA ? values.provinsiKTP : values.provinsiSaatIni}
               margin="normal"
               fullWidth
@@ -525,12 +546,12 @@ export class FormDataPemohon extends Component {
               }
             </TextField>
             <TextField
-              disabled={values.provinsiSaatIni == "" || this.state.checkedA}
-              label={values.kotaKabupatenSaatIni === "" ? "Pilih Kabupaten / Kota" : ""}
+              disabled={values.provinsiSaatIni === "" || checkedA}
+              label={values.kotaKabupatenSaatIni === "" ? "Pilih Kabupaten / Kota" : values.kotaKabupatenSaatIni}
               InputLabelProps={{ shrink: false }}
               className={classes.text}
               onChange={handleChange('kotaKabupatenSaatIni')}
-              value={this.state.checkedA ? values.kotaKabupatenKTP : values.kotaKabupatenSaatIni}
+              value={checkedA ? values.kotaKabupatenKTP : values.kotaKabupatenSaatIni}
               // defaultValue={this.state.checkedA ? values.kotaKabupatenKTP : values.kotaKabupatenSaatIni}
               margin="normal"
               fullWidth
@@ -547,12 +568,12 @@ export class FormDataPemohon extends Component {
               }
             </TextField>
             <TextField
-              disabled={lokasiSaatIni.kotaKabupatenTerpilih == null || this.state.checkedA}
-              label={values.kecamatanSaatIni === "" ? "Pilih Kecamatan" : ""}
+              disabled={lokasiSaatIni.kotaKabupatenTerpilih == null || checkedA}
+              label={values.kecamatanSaatIni === "" ? "Pilih Kecamatan" : values.kecamatanSaatIni}
               InputLabelProps={{ shrink: false }}
               className={classes.text}
               onChange={handleChange('kecamatanSaatIni')}
-              value={this.state.checkedA ? values.kecamatanKTP : values.kecamatanSaatIni}
+              value={checkedA ? values.kecamatanKTP : values.kecamatanSaatIni}
               // defaultValue={this.state.checkedA ? values.kecamatanKTP : values.kecamatanSaatIni}
               margin="normal"
               fullWidth
@@ -568,12 +589,12 @@ export class FormDataPemohon extends Component {
               }
             </TextField>
             <TextField
-              disabled={lokasiSaatIni.kecamatanTerpilih == null || this.state.checkedA}
-              label={values.kelurahanSaatIni === "" ? "Pilih Kelurahan" : ""}
+              disabled={lokasiSaatIni.kecamatanTerpilih == null || checkedA}
+              label={values.kelurahanSaatIni === "" ? "Pilih Kelurahan" : values.kelurahanSaatIni}
               InputLabelProps={{ shrink: false }}
               className={classes.text}
               onChange={handleChange('kelurahanSaatIni')}
-              value={this.state.checkedA ? values.kelurahanKTP : values.kelurahanSaatIni}
+              value={checkedA ? values.kelurahanKTP : values.kelurahanSaatIni}
               // defaultValue={this.state.checkedA ? values.kelurahanKTP : values.kelurahanSaatIni}
               // defaultValue={values.kelurahanSaatIni}
               margin="normal"
@@ -590,11 +611,11 @@ export class FormDataPemohon extends Component {
               }
             </TextField>
             <TextField
-              disabled={this.state.checkedA}
+              disabled={checkedA}
               className={classes.text}
               placeholder="Masukkan Detail Alamat (Nama Jalan, No. Rumah, Blok, RT/RW"
               onChange={handleChange('alamatSaatIni')}
-              value={this.state.checkedA ? values.alamatKTP : values.alamatSaatIni}
+              value={checkedA ? values.alamatKTP : values.alamatSaatIni}
               // defaultValue={this.state.checkedA ? values.alamatKTP : values.alamatSaatIni}
               // defaultValue={values.alamatSaatIni}
               margin="normal"
@@ -654,28 +675,19 @@ export class FormDataPemohon extends Component {
           <br />
           <FormControl className={classes.formControl}>
             <FormLabel className={classes.label}>No. Handphone</FormLabel>
-            <TextField
-              className={classes.text}
-              InputProps={{
-                startAdornment: <InputAdornment position="start">+62 |</InputAdornment>,
-              }}
-              placeholder="xxx-xxxx-xxxx"
+            <InputMask
+              mask="+62 | 999-9999-99999"
+              value={values.noHP}
               onChange={handleChange('noHP')}
-              defaultValue={values.noHP}
-              margin="normal"
-              fullWidth
-            />
-            <TextField
-              className={classes.text}
-              InputProps={{
-                startAdornment: <InputAdornment position="start">+62 |</InputAdornment>,
-              }}
-              placeholder="xxx-xxxx-xxxx"
-              onChange={handleChange('noHP')}
-              defaultValue={values.noHP}
-              margin="normal"
-              fullWidth
-            />
+              maskChar=" ">
+                {() => <TextField
+                  className={classes.text}
+                  placeholder="+62 | xxx-xxxx-xxxx"
+                  name="noHP"
+                  fullWidth
+                  margin="normal"/>}
+            </InputMask>
+            
           </FormControl>
           <br />
           <br />
@@ -686,11 +698,21 @@ export class FormDataPemohon extends Component {
               onClick={this.back}
             >Periksa Kembali</Button>
 
-            <Button
-              className="button2"
-              variant="contained"
-              onClick={this.continue}
-            >Lanjut</Button>
+            {
+              values.statusPerkawinan === 'Menikah'
+              ?               
+              <Button
+                className="button2"
+                variant="contained"
+                onClick={this.continue}
+              >Lanjut</Button>
+              :
+              <Button
+                className="button2"
+                variant="contained"
+                onClick={this.jump}
+              >Lanjut</Button>
+            }
           </div>
 
         </div>

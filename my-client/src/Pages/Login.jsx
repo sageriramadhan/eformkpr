@@ -1,18 +1,15 @@
 import React from 'react';
-import { Paper, withStyles, Grid, TextField, Button, FormControlLabel, Checkbox } from '@material-ui/core';
+import { withStyles, Grid, TextField, Button } from '@material-ui/core';
 import '../Styles/formStyle.css'
 import axios from 'axios';
 import swal from 'sweetalert';
-// import { useHistory } from "react-router-dom";
-// const bcrypt = require('bcryptjs');
-// var salt = bcrypt.genSaltSync(10);
 
 const styles = theme => ({
     margin: {
         margin: theme.spacing.unit * 17,
     },
     padding: {
-        padding: theme.spacing.unit
+        padding: theme.spacing.unit *5
     }
 });
 
@@ -21,8 +18,6 @@ class LoginTab extends React.Component {
         email: "",
         password: ""
     }
-
-    // history = useHistory();
 
     onChange = input => (e) => {
         this.setState({ [input]: e.target.value })
@@ -42,13 +37,14 @@ class LoginTab extends React.Component {
             password: this.state.password
         }).then((res) => {
             localStorage.setItem("token", res.data.results.data);
-            console.log("Masuk")
-            // console.log(this.props.history)
-            this.props.history.push('/userForm');
-            // console.log(token)
-            // localStorage.setItem("")
+            this.props.history.push({
+                pathname: "/profile",
+                state: {userId: res.data.results.id}
+            })
+            localStorage.setItem("userId", res.data.results.id)
+            // console.log(res.data.results.id)
+            // this.props.history.push('/userForm');
         }).catch((err) => {
-            console.log("Error")
             swal({
                 text: "Email atau Password Salah",
                 icon: "error",
@@ -91,7 +87,7 @@ class LoginTab extends React.Component {
                                     variant="outlined"
                                     className="loginButton"
                                     onClick={this.login}
-                                    disabled={this.state.email == '' && this.state.password == ''}
+                                    disabled={this.state.email === '' && this.state.password === ''}
                                     style={{ textTransform: "none" }}>
                                     Login
                                 </Button>

@@ -7,8 +7,8 @@ body, html{
 .mainPage {
     background-image: url("../bg.jpg");
     background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+    background-repeat: no-repeat;
+    background-size: cover;
     top: 0;
     margin: 0;
     padding: 0;
@@ -84,7 +84,8 @@ body, html{
     background-color:#fff;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
     margin-top: 50px;
-    justify-content:space-around
+    justify-content:space-around;
+    /* bottom: 0px; */
 }
 
 .button1 {
@@ -164,7 +165,7 @@ body, html{
 }
 
 .loginButton {
-    width: 30vw;
+    width: 549px !important;
     height: 35px;
     padding: 5px, 0px, 5px, 0px;
     border-radius: 25px !important;
@@ -178,7 +179,7 @@ body, html{
 }
 
 .signUpButton {
-    width: 15vw;
+    width: 300px;
     background-color: #6A0081 !important;
     color: #FFFFFF !important;
     font-family: 'Open Sans';
@@ -195,4 +196,47 @@ body, html{
     right: 189px; */
     top: 10px;
     width: 30vw;
+}
+
+.profileContainer {
+    padding-top: 2rem;
+}
+
+.sectionTitle {
+    /* padding-top: 2rem; */
+    margin: 0;
+    font-family: 'Open Sans';
+    font-weight: 600;
+    font-size: 20px;
+    color: #490E73;
+    align-content: center;
+}
+
+.pengajuanKPR {
+    display: flex;
+    flex-direction: row ;
+    align-items: center;
+    align-content: center;
+    justify-content: space-between;
+}
+
+.profileButton {
+    width: 180px;
+    height: 36px;
+    border-radius: 25px !important;
+    padding: 4px, 40px, 4px, 40px;
+    color: #fff !important;
+    background-color: #542D86 !important;
+    border: 1px solid #542D86;
+}
+
+.logOutButton {
+    width: 310px;
+    height: 36px;
+    border-radius: 25px !important;
+    padding: 4px, 40px, 4px, 40px;
+    color: #fff !important;
+    background-color: #542D86 !important;
+    border: 1px solid #542D86;
+
 }

@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import Dialog from '@material-ui/core/Dialog';
 import AppBar from '@material-ui/core/AppBar';
-import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
-import axios from 'axios'
-import { List, ListItem, ListItemText, FormControl } from '@material-ui/core/';
+// import axios from 'axios'
 import Button from '@material-ui/core/Button';
 import '../Styles/formStyle.css'
 import stepper from "../selesai.PNG"
@@ -50,7 +47,7 @@ export class Success extends Component {
     // console.log("Diluar Axios")
   }
   render() {
-    const { classes } = this.props
+
     return (
       <div className="mainPage">
         <div className="mainForm">
@@ -71,7 +68,7 @@ export class Success extends Component {
               <Button
                 className="buttonSuccessPage"
                 variant="contained"
-                // onClick={this.continue}
+                onClick href="/profile"
               >Lanjutkan</Button>
             </div>
           </div>

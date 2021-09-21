@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { withStyles, Grid, TextField, Button, Checkbox, MenuItem } from '@material-ui/core';
+import { MuiThemeProvider, createTheme } from '@material-ui/core';
+import { withStyles, Grid, TextField, Button, MenuItem } from '@material-ui/core';
 import '../Styles/formStyle.css'
 import notarobot from "../notrobot.png"
 import axios from 'axios';
@@ -15,7 +16,7 @@ const styles = theme => ({
     }
 });
 
-export class Register extends Component {
+class Register extends React.Component {
 
     state = {
         punyaRekening: false,
@@ -65,13 +66,13 @@ export class Register extends Component {
     };
 
     render() {
-        const { classes, values } = this.props;
+        const { classes } = this.props;
         return (
             <div className="mainPage">
                 <div className="mainForm">
-                    <br />
-                    {/* <div className={classes.padding}> */}
-                        {/* <div className={classes.margin}> */}
+                    {/* <br /> */}
+                    <div className={classes.padding}>
+                        <div className={classes.margin}>
                             <p className="judulLogin">Daftar Menjadi Member</p>
                             <Grid container justify="center" alignItems="flex-end">
                                 <Grid item>
@@ -176,14 +177,14 @@ export class Register extends Component {
                                     variant="contained"
                                     className="loginButton"
                                     style={{ textTransform: "none" }}
-                                    disabled={this.state.name=="" && this.state.email=="" && this.state.password==""}
+                                    disabled={this.state.name==="" && this.state.email==="" && this.state.password===""}
                                     onClick={this.register}>
                                     Sign Up
                                 </Button>
                             </Grid>
                         </div>
-                    {/* </div> */}
-                {/* </div> */}
+                    </div>
+                </div>
             </div>
         );
     }

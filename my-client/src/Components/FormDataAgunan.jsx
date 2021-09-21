@@ -1,16 +1,10 @@
 import React, { Component } from 'react';
-import { Dialog, AppBar, TextField, MenuItem, Button, FormControl, FormLabel, Grid, Select } from '@material-ui/core';
+import { AppBar, TextField, MenuItem, Button, FormControl, FormLabel, Grid } from '@material-ui/core';
 import '../Styles/formStyle.css'
 import { withStyles, createStyles } from "@material-ui/core/styles";
-import stepper from "../stepper.PNG"
 import { LocationService } from '../Service/LocationService';
 
 const styles = theme => createStyles({
-  root: {
-    "& .MuiFormLabel-root": {
-      // color: "red"
-    }
-  },
   label: {
     color: "#490E73",
     fontSize: "14px",
@@ -39,10 +33,15 @@ export class FormDataAgunan extends Component {
     kecamatanTerpilih: null,
     kelurahanTerpilih: null,
   }
- 
+
   continue = e => {
     e.preventDefault();
     this.props.nextStep();
+  };
+
+  back = e => {
+    e.preventDefault();
+    this.props.prevStep();
   };
 
   async componentDidMount() {
@@ -98,7 +97,7 @@ export class FormDataAgunan extends Component {
   }
 
   async onKotaKabupatenDidSelect(kotaKabupaten) {
-    this.props.handleKotaKabupaten(kotaKabupaten, 'provinsiAgunan')
+    this.props.handleKotaKabupaten(kotaKabupaten, 'kotaKabupatenAgunan')
 
     this.setState({ kotaKabupatenTerpilih: kotaKabupaten })
 
@@ -157,9 +156,6 @@ export class FormDataAgunan extends Component {
         <div className="mainForm">
           <p className="judul">Data Agunan</p>
           <br />
-          <div className="stepper">
-            <img src={stepper} className="stepperImage"/>
-          </div>
           <br />
           <AppBar title="Masukkan Data Pengguna" />
           <FormControl className={classes.formControl}>
@@ -280,6 +276,7 @@ export class FormDataAgunan extends Component {
           <FormControl className={classes.formControl}>
             <FormLabel className={classes.label}>No. SPR* Developer</FormLabel>
             <TextField
+              //tambahan agunan
               placeholder="Masukkan No. SPR Developer"
               className={classes.text}
               onChange={handleChange('nomorSPRDeveloper')}
@@ -380,23 +377,33 @@ export class FormDataAgunan extends Component {
                   </MenuItem>)
               }
             </TextField>
-            <Grid container spacing={24}>
-              <Grid item xs={4}>
+            <Grid container spacing={3}>
+              <Grid item xs>
                 <TextField
                   disabled={kelurahanTerpilih==null}
-                  placeholder="RT/RW"
-                  onChange={handleChange('rtRwAgunan')}
-                  style={{ paddingRight: "20px", width: "170px" }}
-                  defaultValue={values.rtRwAgunan}
+                  placeholder="RT"
+                  onChange={handleChange('rtAgunan')}
+                  // style={{ paddingRight: "20px", width: "170px" }}
+                  defaultValue={values.rtAgunan}
                   margin="normal"
                 />
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs>
+                <TextField
+                  disabled={kelurahanTerpilih==null}
+                  placeholder="RW"
+                  onChange={handleChange('rwAgunan')}
+                  // style={{  width: "170px" }}
+                  defaultValue={values.rwAgunan}
+                  margin="normal"
+                />
+              </Grid>
+              <Grid item xs={5}>
                 <TextField
                   disabled={kelurahanTerpilih==null}
                   placeholder="Kode Pos"
                   onChange={handleChange('kodePosAgunan')}
-                  style={{ paddingRight: "20px", width: "170px" }}
+                  // style={{ paddingRight: "20px", width: "170px" }}
                   defaultValue={values.kodePosAgunan}
                   margin="normal"
                 />
@@ -408,8 +415,8 @@ export class FormDataAgunan extends Component {
             <Button
               className="button1"
               variant="contained"
-            // onClick={this.continue}
-            >Simpan</Button>
+            onClick={this.back}
+            >Periksa Kembali</Button>
 
             <Button
               className="button2"
