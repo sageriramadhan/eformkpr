@@ -263,6 +263,35 @@ export class FormDataPemohon extends Component {
           <br />
           <AppBar title="Masukkan Data Pengguna" />
           <FormControl className={classes.formControl}>
+            <FormLabel className={classes.label}>Nama Lengkap Sesuai KTP</FormLabel>
+            <TextField
+              className={classes.text}
+              placeholder="Masukkan Nama Lengkap Sesuai KTP"
+              onChange={handleChange('namaLengkapAsli')}
+              defaultValue={values.namaLengkapAsli}
+              margin="normal"
+            />
+          </FormControl>
+          <br />
+          <br />
+          <FormControl className={classes.formControl}>
+            <FormLabel className={classes.label}>Jenis Kelamin</FormLabel>
+            <TextField
+              className={classes.text}
+              label={values.jenisKelamin === "" ? "Pilih Jenis Kelamin" : ""}
+              InputLabelProps={{ shrink: false }}
+              onChange={handleChange('jenisKelamin')}
+              defaultValue={values.jenisKelamin}
+              margin="normal"
+              select
+            >
+              <MenuItem value="Pria">Pria</MenuItem>
+              <MenuItem value="Wanita">Wanita</MenuItem>
+            </TextField>
+          </FormControl>
+          <br />
+          <br />
+          <FormControl className={classes.formControl}>
             <FormLabel className={classes.label}>Nama Lengkap Tanpa Singkatan dan Tanpa Gelar</FormLabel>
             <TextField
               className={classes.text}
@@ -358,9 +387,22 @@ export class FormDataPemohon extends Component {
               margin="normal"
               fullWidth
               select>
-              <MenuItem value="Single">Single</MenuItem>
+              <MenuItem value="Single">Belum Menikah</MenuItem>
               <MenuItem value="Menikah">Menikah</MenuItem>
+              <MenuItem value="Cerai">Menikah</MenuItem>
             </TextField>
+          </FormControl>
+          <br />
+          <br />
+          <FormControl className={classes.formControl}>
+            <FormLabel className={classes.label}>Jumlah Tanggungan Anak</FormLabel>
+            <TextField
+              className={classes.text}
+              placeholder="Masukkan Jumlah Tanggungan Anak"
+              onChange={handleChange('jumlahTanggunganAnak')}
+              defaultValue={values.jumlahTanggunganAnak}
+              margin="normal"
+            />
           </FormControl>
           <br />
           <br />

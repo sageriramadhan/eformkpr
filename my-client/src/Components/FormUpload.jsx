@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
-import { Dialog, AppBar, TextField, MenuItem, FormControl, FormLabel, Grid, InputAdornment, Box, Typography, Button, ListItem } from '@material-ui/core';
+import { AppBar, TextField, FormControl, FormLabel, Button } from '@material-ui/core';
 import '../Styles/formStyle.css'
 import { withStyles, createStyles } from "@material-ui/core/styles";
+import fileLogo from '../file.svg'
 
 const styles = theme => createStyles({
     label: {
@@ -16,7 +16,7 @@ const styles = theme => createStyles({
         right: 150
     },
     text: {
-        width: "641px"
+        width: "545px"
     }
 });
 
@@ -30,7 +30,6 @@ export class FormUpload extends Component {
         this.props.prevStep();
     };
     state = {
-
         // Initially, no file is selected 
         selectedKTP: null,
         selectedNPWP: null,
@@ -182,24 +181,7 @@ export class FormUpload extends Component {
                     </div>
                 </div>
             );
-        } //else { 
-        // return ( 
-        //   <div className="mainPage">
-        //   <div className="mainForm">
-        //     <p className="judul">Unggah Berkas</p>
-        //     <br />
-        //     <br />
-        //     <AppBar title="Masukkan Data Pengguna" />
-        //     <FormControl className={classes.formControl}>
-        //   <div> 
-        //     <br /> 
-        //     <h4>Choose before Pressing the Upload button</h4> 
-        //   </div> 
-        //     </FormControl>
-        //   </div> 
-        //   </div>
-        // ); 
-        // } 
+        }
     };
 
     render() {
@@ -207,18 +189,19 @@ export class FormUpload extends Component {
         return (
             <div className="mainPage">
                 <div className="mainForm">
-                    <p className="judul">Unggah Berkas</p>
+                    <p className="judul">Unggah Dokumen</p>
                     <br />
                     <br />
                     <AppBar title="Masukkan Data Pengguna" />
                     <FormControl className={classes.formControl}>
+                        <p className="formUploadText">
+                            PERHATIAN <br />
+                            1. Format file yang dapat diunggah adalah pdf, jpg, jpeg, png.<br />
+                            2. Pastikan file yang anda upload terbaca oleh kami untuk di analisa. <br />
+                            3. Maksimal setiap file: 2 MB
+                        </p>
                         <div className={classes.formControl}>
-                            {/* <h1> 
-            GeeksforGeeks 
-          </h1> 
-          <h3> 
-            File Upload using React! 
-          </h3>  */}
+
                             <FormLabel className={classes.label}>Kartu Tanda Penduduk</FormLabel>
                             <div>
                                 <TextField InputProps={{ disableUnderline: true }} type="file" onChange={this.onKTPChange} margin="normal" className={classes.text} />

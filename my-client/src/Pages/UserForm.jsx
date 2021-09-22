@@ -38,10 +38,11 @@ export class UserForm extends Component {
     rtAgunan: '', rwAgunan: '', kodePosAgunan: '',
 
     //page3
-    namaLengkap: '', tempatLahir: '', tanggalLahir: '', noKTP: '', noNPWP: '', namaGadisIbuKandung: '',
-    statusPerkawinan: '', pendidikanTerakhir: '', statusTempatTinggal: '', statusLainnya: '', alamatKTP: '', provinsiKTP: '',
-    kotaKabupatenKTP: '', kelurahanKTP: '', kecamatanKTP: '', kodeposKTP: '', alamatSaatIni: '', provinsiSaatIni: '', kotaKabupatenSaatIni: '',
-    kelurahanSaatIni: '', kecamatanSaatIni: '', kodeposSaatIni: '', alamatSuratMenyurat: '', noTeleponRumah: '', email: '', noHP: '',
+    namaLengkap: '', jenisKelamin:'', namaLengkapAsli:'', tempatLahir: '', tanggalLahir: '', noKTP: '', noNPWP: '', namaGadisIbuKandung: '',
+    statusPerkawinan: '', pendidikanTerakhir: '', statusTempatTinggal: '', statusLainnya: '', alamatKTP: '', 
+    provinsiKTP: '', kotaKabupatenKTP: '', kelurahanKTP: '', kecamatanKTP: '', kodeposKTP: '', alamatSaatIni: '', 
+    provinsiSaatIni: '', kotaKabupatenSaatIni: '', kelurahanSaatIni: '', kecamatanSaatIni: '', kodeposSaatIni: '', 
+    alamatSuratMenyurat: '', noTeleponRumah: '', email: '', noHP: '', jumlahTanggunganAnak: '',
 
     //form Kerabat
     namaKerabat: '', alamatKerabat: '', provinsiKerabat: '', kotaKabupatenKerabat: '', kecamatanKerabat: '', kelurahanKerabat: '',
@@ -52,15 +53,18 @@ export class UserForm extends Component {
     pekerjaanSuamiIstri: '', nomorTelponSuamiIstri: '', isPekerjaanLainnya: false, isKategoriPekerjaan: false,
 
     //Data Pekerjaan Pemohon
-    tahunLamaBekerjaPemohon: '', bulanLamaBekerjaPemohon: '', jumlahKaryawanPekerjaanPemohon: '', pekerjaanLainnyaPemohon: '', namaPerusahaanPemohon: '',
-    jabatanPemohon: '', kategoriInstansiPekerjaanPemohon: '', lainKategoriPekerjaanPemohon: '', pendapatanPerbulanPemohon: '', jenisPekerjaanPemohon: '',
-    alamatKantorPemohon: '', pembayaranGajiPemohon: '', kategoriInstansiPekerjaanPemohon: '',
+    tahunLamaBekerjaPemohon: '', bulanLamaBekerjaPemohon: '', jumlahKaryawanPekerjaanPemohon: '', pekerjaanLainnyaPemohon: '', 
+    namaPerusahaanPemohon: '', jabatanPemohon: '', kategoriInstansiPekerjaanPemohon: '', lainKategoriPekerjaanPemohon: '', 
+    pendapatanPerbulanPemohon: '', jenisPekerjaanPemohon: '', alamatKantorPemohon: '', pembayaranGajiPemohon: '', 
+    kategoriInstansiPekerjaanPemohon: '',
 
     //Data Pekerjaan Suami IStri
-    tahunLamaBekerjaSuamiIstri: '', bulanLamaBekerjaSuamiIstri: '', jumlahKaryawanSuamiIstri: '', jenisPekerjaanSuamiIstri: '', pekerjaanLainnyaSuamiIstri: '',
-    namaPerusahaanSuamiIstri: '', jabatanSuamiIstri: '', kategoriInstansiSuamiIstri: '', kategoriInstansiLainnyaSuamiIstri: '', pendapatanBulananSuamiIstri: '',
-    statusPekerjaanSuamiIstri: '', pembayaranGajiSuamiIstri: '', alamatKantorSuamiIstri: '', kodePosKantorSuamiIstri: '', teleponKantorSuamiIstri: '',
-    teleponHrdSuamiIstri: '', bidangUsahaSuamiIstri: '', emailHrdSuamiIstri: '', emailAtasanSuamiIstri: '', teleponAtasanSuamiIstri: '',
+    tahunLamaBekerjaSuamiIstri: '', bulanLamaBekerjaSuamiIstri: '', jumlahKaryawanSuamiIstri: '', jenisPekerjaanSuamiIstri: '', 
+    pekerjaanLainnyaSuamiIstri: '', namaPerusahaanSuamiIstri: '', jabatanSuamiIstri: '', kategoriInstansiSuamiIstri: '', 
+    kategoriInstansiLainnyaSuamiIstri: '', pendapatanBulananSuamiIstri: '', statusPekerjaanSuamiIstri: '', 
+    pembayaranGajiSuamiIstri: '', alamatKantorSuamiIstri: '', kodePosKantorSuamiIstri: '', teleponKantorSuamiIstri: '',
+    teleponHrdSuamiIstri: '', bidangUsahaSuamiIstri: '', emailHrdSuamiIstri: '', emailAtasanSuamiIstri: '', 
+    teleponAtasanSuamiIstri: '',
 
     isLainnya: false,
     checkedA: false,
@@ -334,12 +338,15 @@ export class UserForm extends Component {
   render() {
     const { step } = this.state;
 
-    const { isNasabah, noRekening, jenisAgunan, luasTanah, luasBangunan, statusKepemilikan, kondisiBangunan, statusAgunan, atasNamaSertifikat, 
-      nomorSertifikat, berlakuHingga, nomorSPRDeveloper, alamatPropertiAgunan, provinsiAgunan, kotaKabupatenAgunan, kecamatanAgunan, 
-      kelurahanAgunan, rtAgunan, rwAgunan, kodePosAgunan, namaLengkap, tempatLahir, tanggalLahir, noKTP, noNPWP, namaGadisIbuKandung, 
-      statusPerkawinan, pendidikanTerakhir, statusTempatTinggal, statusLainnya, alamatKTP, provinsiKTP, kotaKabupatenKTP, kelurahanKTP, 
-      kecamatanKTP, kodeposKTP, alamatSaatIni, provinsiSaatIni, kotaKabupatenSaatIni, kelurahanSaatIni, kecamatanSaatIni, kodeposSaatIni, 
-      alamatSuratMenyurat, noTeleponRumah, email, noHP,
+    const { isNasabah, noRekening, jenisAgunan, luasTanah, luasBangunan, statusKepemilikan, kondisiBangunan, statusAgunan, 
+      atasNamaSertifikat, nomorSertifikat, berlakuHingga, nomorSPRDeveloper, alamatPropertiAgunan, provinsiAgunan, 
+      kotaKabupatenAgunan, kecamatanAgunan, kelurahanAgunan, rtAgunan, rwAgunan, kodePosAgunan, 
+      
+      
+      namaLengkap, jenisKelamin, namaLengkapAsli, tempatLahir, tanggalLahir, noKTP, noNPWP, namaGadisIbuKandung, statusPerkawinan, 
+      pendidikanTerakhir, statusTempatTinggal, statusLainnya, alamatKTP, provinsiKTP, kotaKabupatenKTP, kelurahanKTP, 
+      kecamatanKTP, kodeposKTP, alamatSaatIni, provinsiSaatIni, kotaKabupatenSaatIni, kelurahanSaatIni, kecamatanSaatIni, 
+      kodeposSaatIni, alamatSuratMenyurat, noTeleponRumah, email, noHP, jumlahTanggunganAnak,
 
       //Form Kerabat
       namaKerabat, alamatKerabat, provinsiKerabat, kotaKabupatenKerabat, kecamatanKerabat, kelurahanKerabat, RtKerabat, 
@@ -381,11 +388,14 @@ export class UserForm extends Component {
     const values = {
       isNasabah, noRekening,
       jenisAgunan, luasTanah, luasBangunan, statusKepemilikan, kondisiBangunan, statusAgunan, atasNamaSertifikat, 
-      nomorSertifikat, berlakuHingga, nomorSPRDeveloper, alamatPropertiAgunan, provinsiAgunan, kotaKabupatenAgunan, kecamatanAgunan, 
-      kelurahanAgunan, rtAgunan, rwAgunan, kodePosAgunan, namaLengkap, tempatLahir, tanggalLahir, noKTP, noNPWP, namaGadisIbuKandung, 
-      statusPerkawinan, pendidikanTerakhir, statusTempatTinggal, statusLainnya, alamatKTP, provinsiKTP, kotaKabupatenKTP, kelurahanKTP, 
-      kecamatanKTP, kodeposKTP, alamatSaatIni, provinsiSaatIni, kotaKabupatenSaatIni, kelurahanSaatIni, kecamatanSaatIni, kodeposSaatIni, 
-      alamatSuratMenyurat, noTeleponRumah, email, noHP,
+      nomorSertifikat, berlakuHingga, nomorSPRDeveloper, alamatPropertiAgunan, provinsiAgunan, kotaKabupatenAgunan, 
+      kecamatanAgunan, kelurahanAgunan, rtAgunan, rwAgunan, kodePosAgunan, 
+      
+      //page data pemohon
+      namaLengkap, jenisKelamin,  tempatLahir, tanggalLahir, noKTP, noNPWP, namaGadisIbuKandung, statusPerkawinan, 
+      pendidikanTerakhir, statusTempatTinggal, statusLainnya, alamatKTP, provinsiKTP, kotaKabupatenKTP, kelurahanKTP, 
+      kecamatanKTP, kodeposKTP, alamatSaatIni, provinsiSaatIni, kotaKabupatenSaatIni, kelurahanSaatIni, kecamatanSaatIni, 
+      kodeposSaatIni, alamatSuratMenyurat, noTeleponRumah, email, noHP,namaLengkapAsli, jumlahTanggunganAnak,
 
       //Form Kerabat
       namaKerabat, alamatKerabat, provinsiKerabat, kotaKabupatenKerabat, kecamatanKerabat, kelurahanKerabat, RtKerabat, 
@@ -546,6 +556,7 @@ export class UserForm extends Component {
         return (
           <DataPembiayaanDimiliki
             isYa={isYa}
+            nextStep={this.nextStep}
             prevStep={this.prevStep}
             handleChange={this.handleChange}
             handleKeuangan={this.handleKeuangan}

@@ -26,6 +26,17 @@ class Register extends React.Component {
         confirm_password: "",
     }
 
+    componentDidMount() {
+        let token = localStorage.getItem('token');
+        if (!token) {
+            this.render()
+        } else {
+            this.setState({ token: token }, () => {
+                this.props.history.push('/profile')
+            })
+        }
+    }
+
     onChange = input => (e) => {
         this.setState({ [input]: e.target.value })
     }
@@ -177,7 +188,7 @@ class Register extends React.Component {
                                     variant="contained"
                                     className="loginButton"
                                     style={{ textTransform: "none" }}
-                                    disabled={this.state.name==="" && this.state.email==="" && this.state.password===""}
+                                    disabled={this.state.name === "" && this.state.email === "" && this.state.password === ""}
                                     onClick={this.register}>
                                     Sign Up
                                 </Button>

@@ -19,6 +19,17 @@ class LoginTab extends React.Component {
         password: ""
     }
 
+    componentDidMount() {
+        let token = localStorage.getItem('token');
+        if (!token) {
+            this.render()
+        } else {
+            this.setState({ token: token }, () => {
+                this.props.history.push('/profile')
+            })
+        }
+    }
+
     onChange = input => (e) => {
         this.setState({ [input]: e.target.value })
         console.log(input)

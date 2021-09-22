@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
-import { Dialog, AppBar, TextField, MenuItem, Button, FormControl, FormLabel, Grid, Select } from '@material-ui/core';
+import { AppBar, TextField, MenuItem, Button, FormControl, FormLabel, Grid } from '@material-ui/core';
 import '../Styles/formStyle.css'
 import { withStyles, createStyles } from "@material-ui/core/styles";
 import clsx from 'clsx';
@@ -146,6 +145,11 @@ export class FasilitasPembayaran extends Component {
         e.preventDefault();
         this.props.nextStep();
     };
+
+    back = e => {
+        e.preventDefault();
+        this.props.prevStep();
+      };
 
     render() {
         const { values, handleChange, classes, handleLainnya,
@@ -798,7 +802,7 @@ export class FasilitasPembayaran extends Component {
                         <Button
                             className="button1"
                             variant="contained"
-                        // onClick={this.continue}
+                        onClick={this.back}
                         >Periksa Kembali</Button>
 
                         <Button
