@@ -12,11 +12,13 @@ class UploaddocController{
             slipGajiUpload,
          } = req.files
          
+         const {userId} = req.params
          Uploaddoc.create({
             ktpUpload,
             kkUpload,
             npwpUpload,
-            slipGajiUpload
+            slipGajiUpload,
+            userId
          })
            .then((data) => {
               res.status(201).json({

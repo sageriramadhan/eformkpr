@@ -20,7 +20,7 @@ const diskupload = multer.diskStorage({
     }});
 const upload = multer({storage: diskupload});
 
-router.post('/dokumen',upload.fields
+router.post('/dokumen/:userId',upload.fields
 ([
     { name: 'ktpUpload', maxCount: 1 },
     { name: 'kkUpload', maxCount: 1 },
